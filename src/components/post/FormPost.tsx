@@ -45,7 +45,7 @@ const FormPost = ({ setOpen } : FormPostProps) => {
             </div>
             <div className="mb-2">
                 <Textarea 
-                    placeholder="Post description"
+                  placeholder="Post description"
                     name="description"
                 />
             </div>

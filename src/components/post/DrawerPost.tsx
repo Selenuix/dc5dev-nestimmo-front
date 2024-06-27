@@ -33,7 +33,7 @@ const DrawerPost = () => {
                 </DrawerHeader>
                 <DrawerFooter>
                     <DrawerClose>
-                        <Button variant="outline">Cancel</Button>
+                        <Button variant="outline" className="w-full">Cancel</Button>
                     </DrawerClose>
                 </DrawerFooter>
             </DrawerContent>
