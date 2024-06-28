@@ -1,4 +1,5 @@
 export interface PostCreateDTO {
-    title: string;
-    description: string;
+	title: string;
+	description: string;
+	category: string;
 }
