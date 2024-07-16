@@ -29,7 +29,9 @@ const DrawerCategory = ({ initialData }: DrawerCategoryProps) => {
 			</DrawerTrigger>
 			<DrawerContent>
 				<DrawerHeader>
-					<DrawerTitle className="text-center">Add new category</DrawerTitle>
+					<DrawerTitle className="text-center">
+						{initialData ? 'Update' : 'Add new'} category
+					</DrawerTitle>
 					<DrawerDescription className="text-center">Please fill the form.</DrawerDescription>
 					<FormCategory setOpen={setOpen} initialData={initialData} />
 				</DrawerHeader>

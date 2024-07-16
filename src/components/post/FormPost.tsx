@@ -13,25 +13,42 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { fetchAllCategories } from '@/services/category.service';
+import { fetchAllCategories, updateCategory } from '@/services/category.service';
+import { PostCreateDTO } from '@/types/post';
+import { useRouter } from 'next/navigation';
 
 type FormPostProps = {
 	setOpen: (open: boolean) => void;
+	initialData?: { id: number; name: string; description: string; category: any };
 };
 
-const FormPost = ({ setOpen }: FormPostProps) => {
+const FormPost = ({ setOpen, initialData }: FormPostProps) => {
 	const queryClient = useQueryClient();
+	const router = useRouter();
 
 	const { data } = useQuery({
 		queryKey: ['getAllCategories'],
 		queryFn: fetchAllCategories,
 	});
 
-	const mutation = useMutation({
+	const createMutation = useMutation({
 		mutationFn: createPost,
 		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: ['getAllPosts'],
+			});
+			setOpen(false);
+		},
+	});
+
+	const updateMutation = useMutation({
+		mutationFn: updateCategory,
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ['posts'],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ['repoData'],
 			});
 			setOpen(false);
 		},
@@ -60,7 +77,16 @@ const FormPost = ({ setOpen }: FormPostProps) => {
 			category: selectedCategory,
 		};
 
-		mutation.mutate(createPostDTO);
+		if (initialData) {
+			updateMutation.mutate({
+				id: initialData?.id,
+				title: createPostDTO.title,
+				description: createPostDTO.description,
+			});
+		} else {
+			createMutation.mutate(createPostDTO);
+			router.push('/');
+		}
 	};
 
 	return (
@@ -92,11 +118,11 @@ const FormPost = ({ setOpen }: FormPostProps) => {
 				</Select>
 			</div>
 			<div>
-				<Button type="submit" className="w-full" disabled={mutation.isPending}>
-					{mutation.isPending && (
+				<Button type="submit" className="w-full" disabled={createMutation.isPending}>
+					{createMutation.isPending && (
 						<span className="mr-4 h-4 w-4 rounded-full bg-white animate-pulse"></span>
 					)}
-					Create post
+					{initialData ? 'Update category' : 'Create category'}
 				</Button>
 			</div>
 		</form>

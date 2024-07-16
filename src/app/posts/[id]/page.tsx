@@ -6,6 +6,8 @@ import { deletePost, fetchPostById } from '@/services/post.service';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import Loader from '@/components/globals/Loader';
+import DrawerCategory from '@/components/category/DrawerCategory';
+import DrawerPost from '@/components/post/DrawerPost';
 
 type PostDetailParams = {
 	id: string;
@@ -44,6 +46,7 @@ const PostDetail = () => {
 			<p>{data.description}</p>
 
 			<DialogConfirmDelete handleDelete={handleDelete} isPending={mutation.isPending} />
+			<DrawerPost initialData={data} />
 		</div>
 	);
 };

@@ -10,7 +10,7 @@ import { CategoryCreateDTO } from '@/types/category';
 
 type FormCategoryProps = {
 	setOpen: (open: boolean) => void;
-	initialData?: { id: number; name: string }; // Update initialData type definition
+	initialData?: { id: number; name: string };
 };
 
 const FormCategory = ({ setOpen, initialData }: FormCategoryProps) => {
