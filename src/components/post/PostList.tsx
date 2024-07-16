@@ -3,14 +3,15 @@
 import { fetchAllPosts } from '@/services/post.service';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+import Loader from '@/components/globals/Loader';
 
 const PostList = () => {
-	const { isPending, error, data } = useQuery({
+	const { isPending, data } = useQuery({
 		queryKey: ['getAllPosts'],
 		queryFn: fetchAllPosts,
 	});
 
-	if (isPending) return <div className="h-full flex justify-center items-center">Loading...</div>;
+	if (isPending) return <Loader />;
 
 	return (
 		<div>

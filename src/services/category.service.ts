@@ -28,3 +28,14 @@ export const deleteCategory = async (id: string) => {
 	});
 	return await response.json();
 };
+
+export const updateCategory = async (category: any) => {
+	const response = await fetch(`${CATEGORY_ENDPOINT}/${category?.id}`, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(category),
+	});
+	return await response.json();
+};

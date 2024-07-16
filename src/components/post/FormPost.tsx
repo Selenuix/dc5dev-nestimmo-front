@@ -22,7 +22,7 @@ type FormPostProps = {
 const FormPost = ({ setOpen }: FormPostProps) => {
 	const queryClient = useQueryClient();
 
-	const { isLoading, error, data } = useQuery({
+	const { data } = useQuery({
 		queryKey: ['getAllCategories'],
 		queryFn: fetchAllCategories,
 	});

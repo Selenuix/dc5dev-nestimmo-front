@@ -3,14 +3,15 @@
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { fetchAllCategories } from '@/services/category.service';
+import Loader from '@/components/globals/Loader';
 
 const CategoryList = () => {
-	const { isPending, error, data } = useQuery({
+	const { isPending, data } = useQuery({
 		queryKey: ['getAllCategories'],
 		queryFn: fetchAllCategories,
 	});
 
-	if (isPending) return <div className="h-full flex justify-center items-center">Loading...</div>;
+	if (isPending) return <Loader />;
 
 	return (
 		<div>
