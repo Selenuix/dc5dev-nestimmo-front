@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { createPost } from '@/services/post.service';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Select,
 	SelectContent,
@@ -37,14 +37,27 @@ const FormPost = ({ setOpen }: FormPostProps) => {
 		},
 	});
 
+	const [selectedCategory, setSelectedCategory] = useState('');
+	const [selectedCategoryName, setSelectedCategoryName] = useState('');
+
+	useEffect(() => {}, [selectedCategory, selectedCategoryName]);
+
+	const handleCategoryChange = (value: string) => {
+		const category = data.find((category: any) => category.id === value);
+		if (category) {
+			setSelectedCategory(category.id);
+			setSelectedCategoryName(category.name);
+		}
+	};
+
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		const createPostDTO = {
-			// @ts-ignore
+			// @ts-expect-error - We know that these values exist
 			title: e.currentTarget.title.value,
 			description: e.currentTarget.description.value,
-			category: e.currentTarget.category.value,
+			category: selectedCategory,
 		};
 
 		mutation.mutate(createPostDTO);
@@ -59,9 +72,14 @@ const FormPost = ({ setOpen }: FormPostProps) => {
 				<Textarea placeholder="This is my awesome post." name="description" />
 			</div>
 			<div className="mb-2">
-				<Select name="category" required={true}>
+				<Select
+					name="category"
+					required={true}
+					value={selectedCategory || 'Select a category'}
+					onValueChange={handleCategoryChange}
+				>
 					<SelectTrigger>
-						<SelectValue placeholder="Select a category" />
+						<SelectValue>{selectedCategoryName || 'Select a category'}</SelectValue>
 					</SelectTrigger>
 					<SelectContent>
 						{data &&
